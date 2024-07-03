@@ -59,7 +59,57 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  // const key = document.querySelectorAll(".key");
 
+  // function keyClicked() {
+  //   // get the value of the 'data-key' attribute from the clicked element
+  //   const keycode = this.dataset.key;
+  //   const audio = document.querySelector(`audio[data-key="${keycode}"]`);
+  //   if (audio) {
+  //     // reset the audio playback to the beginning
+  //     audio.currentTime = 0;
+  //     audio.play();
+  //     // add "playing" class to the clicked element
+  //     this.classList.add("playing");
+
+  //     // listen for the transitionend event on the clicked element only 'once'
+  //     // this event is triggered when the CSS transition is completed
+  //     this.addEventListener("transitionend", () => {
+  //       this.classList.remove("playing");
+  //     },
+  //     // executed only once, preventing it from being triggered multiple time if transitionend event fires again
+  //       { once: true}
+  //   );
+  //   }
+  // }
+
+  // window.addEventListener("keydown", (e) => {
+  //   const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+  //   if (key) {
+  //     key.click();
+  //   }
+  // });
+
+  // keys.forEach((key) => key.addEventListener("click", keyClicked));
+
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing');
+  }
+
+  function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    if (!audio) return;
+
+    key.classList.add('playing');
+    audio.currentTime = 0;
+    audio.play();
+  }
+
+  const keys = Array.from(document.querySelectorAll('.key'));
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound);
 </script>
 
 
